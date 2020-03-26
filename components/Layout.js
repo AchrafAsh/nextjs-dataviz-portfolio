@@ -1,6 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 
+import './layout.scss';
+
 const Layout = ({ children }) => {
   const links = [
     {
@@ -18,7 +20,7 @@ const Layout = ({ children }) => {
         <ul>
           {links &&
             links.map(link => (
-              <Link href={link.path}>
+              <Link key={link.path} href={link.path}>
                 <a>{link.name}</a>
               </Link>
             ))}

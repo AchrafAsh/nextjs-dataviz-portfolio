@@ -2,6 +2,9 @@ import { useEffect, useState, useRef } from 'react';
 import { select, hierarchy, tree, linkHorizontal } from 'd3';
 import useResizeObserver from '../../components/useResizeObserver';
 
+import BackButton from '../../components/BackButton';
+import Layout from '../../components/Layout';
+
 const TreeChart = ({ data }) => {
   const svgRef = useRef();
   const wrapperRef = useRef();
@@ -77,7 +80,7 @@ const TreeChart = ({ data }) => {
       .attr('opacity', 1);
   }, [data, dimensions]);
   return (
-    <div className='wrapper' ref={wrapperRef}>
+    <div className='dataviz-wrapper' ref={wrapperRef}>
       <svg ref={svgRef}></svg>
     </div>
   );
@@ -109,14 +112,17 @@ function AnimatedTreeChartProject() {
   const [data, setData] = useState(initialData);
 
   return (
-    <>
-      <h1>Animated Tree Chart</h1>
-      <TreeChart data={data} />
-      <button onClick={() => setData(initialData.children[0])}>
-        Update Data
-      </button>
-      <button onClick={() => setData(initialData)}>Back To Start</button>
-    </>
+    <Layout>
+      <div className='project-wrapper'>
+        <h2>Animated Tree Chart</h2>
+        <TreeChart data={data} />
+        <button onClick={() => setData(initialData.children[0])}>
+          Update Data
+        </button>
+        <button onClick={() => setData(initialData)}>Back To Start</button>
+        <BackButton />
+      </div>
+    </Layout>
   );
 }
 

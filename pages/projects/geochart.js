@@ -10,7 +10,9 @@ import {
 } from 'd3';
 import useResizeObserver from '../../components/useResizeObserver';
 
+import Layout from '../../components/Layout';
 import data from '../../components/custom.geo.json';
+import BackButton from '../../components/BackButton';
 
 const GeoChart = ({ data, property }) => {
   const wrapperRef = useRef();
@@ -65,7 +67,7 @@ const GeoChart = ({ data, property }) => {
   }, [data, property, dimensions, selectedCountry]);
 
   return (
-    <div className='wrapper' ref={wrapperRef}>
+    <div className='dataviz-wrapper' ref={wrapperRef}>
       <svg ref={svgRef}></svg>
     </div>
   );
@@ -75,19 +77,19 @@ function GeoChartProject() {
   const [property, setProperty] = useState('pop_est');
 
   return (
-    <>
-      <h2>World Map With d3 Geo</h2>
-      <GeoChart data={data} property={property} />
-      <h3>Select property to highlight</h3>
-      <select value={property} onChange={e => setProperty(e.target.value)}>
-        <option disabled selected>
-          Chose a property
-        </option>
-        <option value='pop_est'>Population</option>
-        <option value='name_len'>Name length</option>
-        <option value='gdp_md_est'>GDP</option>
-      </select>
-    </>
+    <Layout>
+      <div className='project-wrapper'>
+        <h2>World Map With d3 Geo</h2>
+        <GeoChart data={data} property={property} />
+        <h3>Select property to highlight</h3>
+        <select value={property} onChange={e => setProperty(e.target.value)}>
+          <option value='pop_est'>Population</option>
+          <option value='name_len'>Name length</option>
+          <option value='gdp_md_est'>GDP</option>
+        </select>
+        <BackButton />
+      </div>
+    </Layout>
   );
 }
 

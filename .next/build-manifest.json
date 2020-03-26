@@ -24,12 +24,10 @@
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
-    "/projects/animatedtreechart": [
+    "/projects/gaugechart": [
       "static/runtime/webpack.js",
-      "static/runtime/main.js"
-    ],
-    "/projects/geochart": [
-      "static/runtime/webpack.js",
+      "static/css/styles.chunk.css",
+      "static/chunks/styles.js",
       "static/runtime/main.js"
     ]
   }

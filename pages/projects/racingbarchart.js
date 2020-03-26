@@ -1,8 +1,14 @@
-import { useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { select, scaleBand, scaleLinear, max } from 'd3';
-import useResizeObserver from '../../useResizeObservercomponents/useResizeObserver';
+import useResizeObserver from '../../components/useResizeObserver';
+import useInterval from '../../components/useInterval';
 
-export default ({ data }) => {
+import Layout from '../../components/Layout';
+import BackButton from '../../components/BackButton';
+
+const getRandomIndex = data => Math.floor(Math.random() * data.length);
+
+const RacingBarChart = ({ data }) => {
   const svgRef = useRef();
   const wrapperRef = useRef();
   const dimensions = useResizeObserver(wrapperRef);
@@ -57,7 +63,7 @@ export default ({ data }) => {
   }, [data, dimensions]);
 
   return (
-    <div ref={wrapperRef} className='wrapper'>
+    <div ref={wrapperRef} className='dataviz-wrapper'>
       <svg ref={svgRef}></svg>
     </div>
   );
@@ -117,14 +123,17 @@ function RacingBarChartProject() {
   }, 500);
 
   return (
-    <React.Fragment>
-      <h1>Racing Bar Chart</h1>
-      <RacingBarChart data={data} />
-      <button onClick={() => setStart(!start)}>
-        {start ? 'Stop the race !' : 'Start the race !'}
-      </button>
-      <p>Iteration: {iteration}</p>
-    </React.Fragment>
+    <Layout>
+      <div className='project-wrapper'>
+        <h1>Racing Bar Chart</h1>
+        <RacingBarChart data={data} />
+        <button onClick={() => setStart(!start)}>
+          {start ? 'Stop the race !' : 'Start the race !'}
+        </button>
+        <p>Iteration: {iteration}</p>
+        <BackButton />
+      </div>
+    </Layout>
   );
 }
 

@@ -1,6 +1,9 @@
-import React, { useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { select, min, max, scaleTime, scaleLinear, axisBottom } from 'd3';
 import useResizeObserver from '../../components/useResizeObserver';
+
+import Layout from '../../components/Layout';
+import BackButton from '../../components/BackButton';
 
 const getDate = dateString => {
   const date = dateString.split('-');
@@ -48,7 +51,7 @@ const BBTime = ({ data, highlight }) => {
   }, [data, dimensions, highlight]);
 
   return (
-    <div ref={wrapperRef} className='wrapper'>
+    <div ref={wrapperRef} className='dataviz-wrapper'>
       <svg ref={svgRef}>
         <g className='x-axis' />
       </svg>
@@ -81,21 +84,24 @@ function BreakingBadProject() {
   }, []);
 
   return (
-    <React.Fragment>
-      <h1>Breaking Bad Timeline</h1>
-      <BBTime data={bbEpisodes} highlight={highlight} />
-      <h3>Select a character</h3>
-      <select value={highlight} onChange={e => setHighlight(e.target.value)}>
-        <option disabled selected>
-          Select a character
-        </option>
-        {bbCharacters
-          ? bbCharacters.map(character => (
-              <option key={character.char_id}>{character.name}</option>
-            ))
-          : null}
-      </select>
-    </React.Fragment>
+    <Layout>
+      <div className='project-wrapper'>
+        <h2>Breaking Bad Timeline</h2>
+        <BBTime data={bbEpisodes} highlight={highlight} />
+        <h3>Select a character</h3>
+        <select value={highlight} onChange={e => setHighlight(e.target.value)}>
+          <option disabled selected>
+            Select a character
+          </option>
+          {bbCharacters
+            ? bbCharacters.map(character => (
+                <option key={character.char_id}>{character.name}</option>
+              ))
+            : null}
+        </select>
+        <BackButton />
+      </div>
+    </Layout>
   );
 }
 

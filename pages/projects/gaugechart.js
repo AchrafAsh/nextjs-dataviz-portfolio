@@ -1,6 +1,14 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { select, arc, pie, interpolate } from 'd3';
+import ml5 from 'ml5';
+
 import useResizeObserver from '../../components/useResizeObserver';
+import useInterval from '../../components/useInterval';
+
+import BackButton from '../../components/BackButton';
+import Layout from '../../components/Layout';
+
+import model from './model/model.json';
 
 const GaugeChart = ({ data }) => {
   const svgRef = useRef();
@@ -43,7 +51,7 @@ const GaugeChart = ({ data }) => {
   }, [data, dimensions]);
 
   return (
-    <div ref={wrapperRef} className='wrapper'>
+    <div ref={wrapperRef} className='dataviz-wrapper'>
       <svg ref={svgRef}></svg>
     </div>
   );
@@ -57,7 +65,7 @@ function GaugeChartProject() {
   const [shouldClassify, setShouldClassify] = useState(false);
 
   useEffect(() => {
-    classifier = ml5.imageClassifier('./model/model.json', () => {
+    classifier = ml5.imageClassifier(model, () => {
       navigator.mediaDevices
         .getUserMedia({ video: true, audio: false })
         .then(stream => {
@@ -81,14 +89,17 @@ function GaugeChartProject() {
   }, 500);
 
   return (
-    <>
-      <h1>Are You Here ?</h1>
-      <GaugeChart data={gaugeData} />
-      <button onClick={() => setShouldClassify(!shouldClassify)}>
-        {shouldClassify ? 'Stop Classifying' : 'Start Classifying'}
-      </button>
-      <video ref={videoRef} width='300' height='300' />
-    </>
+    <Layout>
+      <div className='project-wrapper'>
+        <h1>Are You Here ?</h1>
+        <GaugeChart data={gaugeData} />
+        <button onClick={() => setShouldClassify(!shouldClassify)}>
+          {shouldClassify ? 'Stop Classifying' : 'Start Classifying'}
+        </button>
+        <video ref={videoRef} width='300' height='300' />
+        <BackButton />
+      </div>
+    </Layout>
   );
 }
 

@@ -2,6 +2,9 @@ import { useRef, useEffect, useState } from 'react';
 import { select, axisRight, axisBottom, scaleLinear, scaleBand } from 'd3';
 import useResizeObserver from '../../components/useResizeObserver';
 
+import BackButton from '../../components/BackButton';
+import Layout from '../../components/Layout';
+
 const BarChart = ({ data }) => {
   const svgRef = useRef(); // contains svg DOM element
   const wrapperRef = useRef();
@@ -70,7 +73,7 @@ const BarChart = ({ data }) => {
   }, [data, dimensions]); // called on data and dimensions change
 
   return (
-    <div ref={wrapperRef} className='barchart'>
+    <div ref={wrapperRef} className='dataviz-wrapper'>
       <svg ref={svgRef}>
         <g className='x-axis' />
         <g className='y-axis' />
@@ -85,29 +88,32 @@ function BarChartProject() {
   const [data, setData] = useState(initialData);
 
   return (
-    <>
-      <BarChart data={data} />
-      <div className='buttons'>
-        <button onClick={() => setData(data.map(value => value + 10))}>
-          Update Data
-        </button>
-        <button onClick={() => setData(data.filter(value => value <= 50))}>
-          Filter Data
-        </button>
-        <button
-          onClick={() => setData([...data, Math.floor(Math.random() * 100)])}
-        >
-          Add data
-        </button>
-        <button
-          onClick={() =>
-            setData(data.filter((value, index) => index < data.length - 1))
-          }
-        >
-          Remove Data
-        </button>
+    <Layout>
+      <div className='project-wrapper'>
+        <BarChart data={data} />
+        <div className='buttons'>
+          <button onClick={() => setData(data.map(value => value + 10))}>
+            Update Data
+          </button>
+          <button onClick={() => setData(data.filter(value => value <= 50))}>
+            Filter Data
+          </button>
+          <button
+            onClick={() => setData([...data, Math.floor(Math.random() * 100)])}
+          >
+            Add data
+          </button>
+          <button
+            onClick={() =>
+              setData(data.filter((value, index) => index < data.length - 1))
+            }
+          >
+            Remove Data
+          </button>
+        </div>
+        <BackButton />
       </div>
-    </>
+    </Layout>
   );
 }
 
